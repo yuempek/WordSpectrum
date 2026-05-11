@@ -133,6 +133,12 @@ function getMonotoneInterpolate(y) {
     };
 }
 
+function getColorForValue(peakX, alpha = 1) {
+    // Interpolate Hue: 0 (Red) -> 60 (Yellow) -> 120 (Green)
+    const hue = Math.min(Math.max(peakX * 1.2, 0), 120);
+    return `hsla(${hue}, 70%, 75%, ${alpha})`;
+}
+
 async function loadAndRender() {
     let surveyData = SURVEY_DATA_FALLBACK;
 
@@ -174,7 +180,6 @@ async function loadAndRender() {
         q.peakY = 100;
     });
 
-
     // Sort by peakX (Probability Value) as requested
     processed.sort((a, b) => a.peakX - b.peakX);
 
@@ -193,16 +198,20 @@ async function loadAndRender() {
         grid.appendChild(card);
 
         const ctx = document.getElementById(`chart-${index}`).getContext('2d');
+        const colorBase = getColorForValue(data.peakX, 1);
+        const colorFill = getColorForValue(data.peakX, 0.5);
+
         new Chart(ctx, {
             type: 'line',
             data: {
                 datasets: [
                     {
                         data: data.points,
-                        borderColor: '#0f172a',
+                        borderColor: colorBase,
+                        backgroundColor: colorFill,
                         borderWidth: 2,
                         pointRadius: 0,
-                        fill: false,
+                        fill: true,
                         tension: 0.4
                     },
                     {
