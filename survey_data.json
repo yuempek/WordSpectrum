@@ -1,0 +1,25 @@
+{
+  "total_responses": 153,
+  "questions": [
+    {"question": "Hiç sanmam", "data": [23, 44, 49, 14, 4, 7, 2, 4, 0, 3, 3]},
+    {"question": "Pek sanmıyorum", "data": [4, 7, 32, 54, 31, 10, 3, 6, 3, 0, 3]},
+    {"question": "Zor", "data": [8, 21, 19, 42, 26, 18, 7, 2, 4, 1, 5]},
+    {"question": "Muhtemelen", "data": [0, 4, 2, 1, 12, 30, 30, 44, 18, 8, 4]},
+    {"question": "Herhalde olur", "data": [0, 1, 3, 4, 6, 18, 52, 30, 25, 9, 5]},
+    {"question": "Düşük ihtimal", "data": [2, 11, 30, 47, 33, 13, 9, 2, 1, 2, 3]},
+    {"question": "Belki", "data": [1, 3, 7, 19, 22, 64, 25, 4, 2, 2, 4]},
+    {"question": "Yarı yarıya", "data": [1, 0, 0, 4, 6, 120, 12, 6, 1, 1, 2]},
+    {"question": "Olabilir", "data": [1, 0, 0, 4, 5, 22, 43, 46, 20, 7, 5]},
+    {"question": "Mümkün", "data": [2, 0, 0, 0, 4, 16, 17, 35, 44, 17, 18]},
+    {"question": "Yüksek ihtimal", "data": [1, 0, 0, 1, 0, 2, 1, 9, 56, 67, 16]},
+    {"question": "Büyük ihtimal", "data": [1, 1, 0, 2, 0, 1, 1, 17, 31, 79, 20]},
+    {"question": "Ölme eşeğim ölme", "data": [39, 44, 23, 15, 9, 12, 2, 4, 1, 0, 4]},
+    {"question": "Neredeyse", "data": [1, 2, 4, 11, 16, 29, 29, 21, 22, 15, 3]},
+    {"question": "Kısmet", "data": [10, 12, 14, 20, 25, 52, 6, 5, 3, 1, 5]},
+    {"question": "Bakarsın olur", "data": [4, 2, 7, 10, 11, 48, 25, 23, 12, 5, 6]},
+    {"question": "Muallak", "data": [5, 5, 14, 21, 38, 60, 7, 0, 0, 1, 2]},
+    {"question": "Kuvvetle muhtemel", "data": [3, 0, 2, 0, 1, 5, 10, 30, 48, 44, 10]},
+    {"question": "Banko", "data": [5, 1, 0, 0, 1, 4, 5, 10, 15, 51, 61]},
+    {"question": "Adım gibi eminim", "data": [4, 1, 0, 0, 0, 1, 2, 4, 12, 23, 106]}
+  ]
+}

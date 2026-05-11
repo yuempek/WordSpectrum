@@ -1,0 +1,88 @@
+:root {
+    --bg-color: #fcfcfc;
+    --card-bg: #ffffff;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --accent: #0f172a;
+    --accent-gradient: linear-gradient(135deg, #0f172a 0%, #334155 100%);
+    --grid-color: #f1f5f9;
+    --peak-color: #dc2626;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    width: 100%;
+    max-width: 1080px;
+    background: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+}
+
+header {
+    text-align: left;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--grid-color);
+    padding-bottom: 1rem;
+}
+
+header h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--accent);
+}
+
+.charts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+}
+
+.chart-card {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--grid-color);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    background: #fff;
+    gap: 1rem;
+}
+
+.chart-label {
+    flex: 0 0 140px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    border-right: 1px solid var(--grid-color);
+    padding-right: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.canvas-container {
+    flex: 1;
+    height: 80px;
+    position: relative;
+}
+
+.legend {
+    display: flex;
+    gap: 1rem;
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.legend-item { display: flex; align-items: center; gap: 0.25rem; }
+.dot { width: 6px; height: 6px; border-radius: 50%; }
