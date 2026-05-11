@@ -199,7 +199,7 @@ async function loadAndRender() {
 
         const ctx = document.getElementById(`chart-${index}`).getContext('2d');
         const colorBase = getColorForValue(data.peakX, 1);
-        const colorFill = getColorForValue(data.peakX, 0.5);
+        const colorFill = getColorForValue(data.peakX, 0.20);
 
         new Chart(ctx, {
             type: 'line',
@@ -212,13 +212,15 @@ async function loadAndRender() {
                         borderWidth: 2,
                         pointRadius: 0,
                         fill: true,
-                        tension: 0.4
+                        tension: 0.4,
+                        order: 2 // Higher order = drawn first (bottom)
                     },
                     {
                         data: [{ x: data.peakX, y: data.peakY }],
                         backgroundColor: '#dc2626',
-                        pointRadius: 4,
-                        showLine: false
+                        pointRadius: 2, // Slightly larger for visibility
+                        showLine: false,
+                        order: 1 // Lower order = drawn last (top)
                     }
                 ]
             },
@@ -246,8 +248,8 @@ async function loadAndRender() {
                         ctx.save();
                         ctx.fillStyle = '#dc2626';
                         ctx.font = 'bold 10px Inter';
-                        ctx.textAlign = 'center';
-                        ctx.fillText(`%${data.peakX.toFixed(0)}`, point.x, point.y - 10);
+                        ctx.textAlign = 'right';
+                        ctx.fillText(`%${data.peakX.toFixed(0)}`, point.x - 5, point.y + 3);
                         ctx.restore();
                     }
                 }

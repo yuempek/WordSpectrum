@@ -32,6 +32,7 @@ body {
     padding: 0.75rem;
     /* Reduced padding */
     border-radius: 12px;
+    padding-bottom: 2rem;
 }
 
 header {
@@ -65,7 +66,6 @@ header h1 {
     font-weight: 700;
     font-size: 0.85rem;
     color: var(--text-primary);
-    border-right: 1px solid var(--grid-color);
     padding-bottom: 0.75rem;
     text-align: right;
     white-space: nowrap;
