@@ -31,6 +31,7 @@ function sinc(x) {
 }
 
 function interpolate(dataPoints, x) {
+    // Current Sinc Interpolation
     let sum = 0;
     let rightNeighbour = Math.floor(x + 10);
     let leftNeighbour = Math.ceil(x - 10);
@@ -39,6 +40,48 @@ function interpolate(dataPoints, x) {
         sum += dataPoints[i] * sinc(x - i);
     }
     return sum;
+}
+
+// Alternative: Cubic Spline Interpolation
+// This pre-calculates coefficients for a natural cubic spline
+function getSplineInterpolate(y) {
+    const n = y.length - 1;
+    const a = [...y];
+    const b = new Array(n);
+    const d = new Array(n);
+    const h = new Array(n).fill(1); // x_i+1 - x_i is always 1 in our case
+    
+    const alpha = new Array(n);
+    for (let i = 1; i < n; i++) {
+        alpha[i] = (3 / h[i]) * (a[i + 1] - a[i]) - (3 / h[i - 1]) * (a[i] - a[i - 1]);
+    }
+    
+    const l = new Array(n + 1);
+    const mu = new Array(n + 1);
+    const z = new Array(n + 1);
+    const c = new Array(n + 1);
+    
+    l[0] = 1; mu[0] = 0; z[0] = 0;
+    for (let i = 1; i < n; i++) {
+        l[i] = 2 * (h[i-1] + h[i]) - h[i-1] * mu[i-1];
+        mu[i] = h[i] / l[i];
+        z[i] = (alpha[i] - h[i-1] * z[i-1]) / l[i];
+    }
+    
+    l[n] = 1; z[n] = 0; c[n] = 0;
+    for (let j = n - 1; j >= 0; j--) {
+        c[j] = z[j] - mu[j] * c[j+1];
+        b[j] = (a[j+1] - a[j]) / h[j] - h[j] * (c[j+1] + 2 * c[j]) / 3;
+        d[j] = (c[j+1] - c[j]) / (3 * h[j]);
+    }
+    
+    return function(x) {
+        let i = Math.floor(x);
+        if (i >= n) i = n - 1;
+        if (i < 0) i = 0;
+        const dx = x - i;
+        return a[i] + b[i] * dx + c[i] * Math.pow(dx, 2) + d[i] * Math.pow(dx, 3);
+    };
 }
 
 async function loadAndRender() {
@@ -54,8 +97,13 @@ async function loadAndRender() {
         const points = [];
         let maxVal = -Infinity;
         let maxPos = 0;
+
+        // Choose method: 'sinc' or 'spline'
+        const method = 'sinc'; 
+        const splineFunc = method === 'spline' ? getSplineInterpolate(q.data) : null;
+
         for (let x = 0; x <= 10; x += 0.05) {
-            const val = interpolate(q.data, x);
+            const val = method === 'spline' ? splineFunc(x) : interpolate(q.data, x);
             points.push({ x: x * 10, y: (val / surveyData.total_responses) * 100 });
             if (val > maxVal) { maxVal = val; maxPos = x; }
         }
