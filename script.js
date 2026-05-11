@@ -50,37 +50,86 @@ function getSplineInterpolate(y) {
     const b = new Array(n);
     const d = new Array(n);
     const h = new Array(n).fill(1); // x_i+1 - x_i is always 1 in our case
-    
+
     const alpha = new Array(n);
     for (let i = 1; i < n; i++) {
         alpha[i] = (3 / h[i]) * (a[i + 1] - a[i]) - (3 / h[i - 1]) * (a[i] - a[i - 1]);
     }
-    
+
     const l = new Array(n + 1);
     const mu = new Array(n + 1);
     const z = new Array(n + 1);
     const c = new Array(n + 1);
-    
+
     l[0] = 1; mu[0] = 0; z[0] = 0;
     for (let i = 1; i < n; i++) {
-        l[i] = 2 * (h[i-1] + h[i]) - h[i-1] * mu[i-1];
+        l[i] = 2 * (h[i - 1] + h[i]) - h[i - 1] * mu[i - 1];
         mu[i] = h[i] / l[i];
-        z[i] = (alpha[i] - h[i-1] * z[i-1]) / l[i];
+        z[i] = (alpha[i] - h[i - 1] * z[i - 1]) / l[i];
     }
-    
+
     l[n] = 1; z[n] = 0; c[n] = 0;
     for (let j = n - 1; j >= 0; j--) {
-        c[j] = z[j] - mu[j] * c[j+1];
-        b[j] = (a[j+1] - a[j]) / h[j] - h[j] * (c[j+1] + 2 * c[j]) / 3;
-        d[j] = (c[j+1] - c[j]) / (3 * h[j]);
+        c[j] = z[j] - mu[j] * c[j + 1];
+        b[j] = (a[j + 1] - a[j]) / h[j] - h[j] * (c[j + 1] + 2 * c[j]) / 3;
+        d[j] = (c[j + 1] - c[j]) / (3 * h[j]);
     }
-    
-    return function(x) {
+
+    return function (x) {
         let i = Math.floor(x);
         if (i >= n) i = n - 1;
         if (i < 0) i = 0;
         const dx = x - i;
         return a[i] + b[i] * dx + c[i] * Math.pow(dx, 2) + d[i] * Math.pow(dx, 3);
+    };
+}
+
+// Alternative: Monotone Cubic Interpolation (Fritsch-Carlson)
+// Prevents overshooting and negative values by ensuring monotonicity.
+function getMonotoneInterpolate(y) {
+    const n = y.length;
+    const x = Array.from({ length: n }, (_, i) => i);
+    const deltas = new Array(n - 1);
+    for (let i = 0; i < n - 1; i++) {
+        deltas[i] = (y[i + 1] - y[i]); // h_i is 1
+    }
+
+    const m = new Array(n);
+    m[0] = deltas[0];
+    m[n - 1] = deltas[n - 2];
+    for (let i = 1; i < n - 1; i++) {
+        m[i] = (deltas[i - 1] + deltas[i]) / 2;
+    }
+
+    for (let i = 0; i < n - 1; i++) {
+        if (deltas[i] === 0) {
+            m[i] = 0;
+            m[i + 1] = 0;
+        } else {
+            const alpha = m[i] / deltas[i];
+            const beta = m[i + 1] / deltas[i];
+            const h = alpha * alpha + beta * beta;
+            if (h > 9) {
+                const tau = 3 / Math.sqrt(h);
+                m[i] = tau * alpha * deltas[i];
+                m[i + 1] = tau * beta * deltas[i];
+            }
+        }
+    }
+
+    return function (val) {
+        let i = Math.floor(val);
+        if (i >= n - 1) i = n - 2;
+        if (i < 0) i = 0;
+        const h = 1;
+        const t = (val - i) / h;
+        const t2 = t * t;
+        const t3 = t2 * t;
+        const h00 = 2 * t3 - 3 * t2 + 1;
+        const h10 = t3 - 2 * t2 + t;
+        const h01 = -2 * t3 + 3 * t2;
+        const h11 = t3 - t2;
+        return h00 * y[i] + h10 * h * m[i] + h01 * y[i + 1] + h11 * h * m[i + 1];
     };
 }
 
@@ -98,12 +147,14 @@ async function loadAndRender() {
         let maxVal = -Infinity;
         let maxPos = 0;
 
-        // Choose method: 'sinc' or 'spline'
-        const method = 'sinc'; 
-        const splineFunc = method === 'spline' ? getSplineInterpolate(q.data) : null;
+        // Choose method: 'sinc', 'spline', or 'monotone'
+        const method = 'monotone';
+        const interpFunc =
+            method === 'monotone' ? getMonotoneInterpolate(q.data) :
+                method === 'spline' ? getSplineInterpolate(q.data) : null;
 
         for (let x = 0; x <= 10; x += 0.05) {
-            const val = method === 'spline' ? splineFunc(x) : interpolate(q.data, x);
+            const val = interpFunc ? interpFunc(x) : interpolate(q.data, x);
             points.push({ x: x * 10, y: (val / surveyData.total_responses) * 100 });
             if (val > maxVal) { maxVal = val; maxPos = x; }
         }
@@ -171,8 +222,8 @@ async function loadAndRender() {
                     tooltip: { enabled: false }
                 },
                 scales: {
-                    x: { type: 'linear', min: 0, max: 100, display: false },
-                    y: { min: 0, max: 100, display: false }
+                    x: { type: 'linear', min: 0, max: 110, display: false },
+                    y: { min: -10, max: 110, display: false }
                 },
                 animation: false
             },
