@@ -39,7 +39,6 @@ header {
     text-align: left;
     margin-bottom: 1.5rem;
     border-bottom: 2px solid var(--grid-color);
-    padding-bottom: 1rem;
 }
 
 header h1 {

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="tr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,13 +14,33 @@
         document.write('<link rel="stylesheet" href="style.css?v=' + Date.now() + '">');
     </script>
 </head>
+
 <body>
     <div class="container">
         <header>
             <h1>Kelimelerin Olasılıkları</h1>
-            <div class="legend" style="margin-top: 0.5rem;">
-                <div class="legend-item"><div class="dot" style="background: #0f172a;"></div><span>Olasılık Eğrisi</span></div>
-                <div class="legend-item"><div class="dot" style="background: #dc2626;"></div><span>Mutabakat Oranı</span></div>
+            <div class="legend" style="margin-top: 0.5rem; flex-wrap: wrap; gap: 0.5rem 1rem;">
+                <div class="legend-item">
+                    <div class="dot" style="background: #0f172a;"></div><span>Olasılık Eğrisi</span>
+                </div>
+                <div class="legend-item">
+                    <div class="dot" style="background: #dc2626;"></div><span>Mutabakat Oranı</span>
+                </div>
+                <div class="legend-item" style="margin-left: auto;">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeAPSzc9iX7hD8k5a6doS294d16SrUcDDByjMUxuU4Sa1V3dg/viewform"
+                        target="_blank"
+                        style="color: var(--text-secondary); text-decoration: none; font-size: 0.75rem;">📋 Anket</a>
+                </div>
+                <div class="legend-item">
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSeAPSzc9iX7hD8k5a6doS294d16SrUcDDByjMUxuU4Sa1V3dg/viewanalytics"
+                        target="_blank"
+                        style="color: var(--text-secondary); text-decoration: none; font-size: 0.75rem;">📊 Sonuçlar</a>
+                </div>
+            </div>
+            <!--div ...add yuempek.com alligned to right here></div-->
+            <div style="text-align: right;">
+                <a href="https://www.yuempek.com" target="_blank"
+                    style="color: var(--text-secondary); text-decoration: none; font-size: 0.75rem;">yuempek.com</a>
             </div>
         </header>
 
@@ -31,4 +52,5 @@
         document.write('<script src="script.js?v=' + Date.now() + '"><\/script>');
     </script>
 </body>
+
 </html>
