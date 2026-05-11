@@ -22,17 +22,13 @@ Verilerin pürüzsüzleştirilmesi için üç farklı yöntem koda entegre edild
 *   **Kompakt Düzen**: Sosyal medya paylaşımlarına uygun, dikey akışlı ve çerçevesiz (minimalist) bir "Kelime : Grafik" tablosu tasarlandı.
 *   **Tepe Noktası Analizi**: Her grafiğin en yüksek mutabakat noktası tespit edilerek üzerine otomatik olarak olasılık yüzdesi etiketlendi.
 
-### 4. Geliştirici ve Kullanıcı Deneyimi
-*   **Cache-Busting**: CSS ve JS dosyalarının tarayıcıda takılı kalmaması için her yüklemede zaman damgalı versiyonlama sistemi kuruldu.
-*   **Lokal Sunucu**: Projenin CORS sorunlarına takılmadan lokalde çalışabilmesi için Python tabanlı hızlı sunucu desteği sağlandı.
-*   **Git Entegrasyonu**: Projenin tüm aşamaları versiyon kontrol sistemi ile kayıt altına alındı.
 
 ## 🛠️ Nasıl Çalıştırılır?
 
 1.  **Verileri Güncellemek İçin:**
-    ```bash
-    python update_data.py
-    ```
+    *   **Windows:** `update.bat` dosyasını çift tıklayın.
+    *   **Linux/macOS:** `sh update.sh` komutunu çalıştırın.
+    *   **Manuel:** `python update_data.py`
 2.  **Lokal Sunucuyu Başlatmak İçin:**
     ```bash
     python -m http.server 8000
